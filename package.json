@@ -1,0 +1,33 @@
+{
+  "name": "be-project-router",
+  "version": "0.0.1",
+  "description": "The entry point of the microservice backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hild-Franck/BE-Project-router.git"
+  },
+  "keywords": [
+    "router",
+    "microservice",
+    "websocket",
+    "zmq"
+  ],
+  "author": "Hild Franck <franck.hild@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hild-Franck/BE-Project-router/issues"
+  },
+  "homepage": "https://github.com/Hild-Franck/BE-Project-router#readme",
+  "devDependencies": {
+    "ava": "^0.17.0"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*.js"
+    ]
+  }
+}
