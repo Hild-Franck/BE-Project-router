@@ -12,9 +12,10 @@ const events = {
     request.on('requestAccepted', wsConnection => {
       onRequestAccepted(wsConnection, username)
     })
+
+		register(request, username)
 	}
 
-	register(username)
 }
 
 module.exports = events
