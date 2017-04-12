@@ -4,7 +4,7 @@
   "description": "The entry point of the microservice backend",
   "main": "index.js",
   "scripts": {
-    "test": "ava --verbose"
+    "test": "nyc ava --verbose"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,17 @@
   },
   "homepage": "https://github.com/Hild-Franck/BE-Project-router#readme",
   "devDependencies": {
-    "ava": "^0.17.0"
+    "ava": "^0.17.0",
+    "nyc": "^10.2.0"
   },
   "ava": {
     "files": [
       "tests/**/*.js"
     ]
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "redis": "^2.7.1",
+    "websocket": "^1.0.24"
   }
 }
