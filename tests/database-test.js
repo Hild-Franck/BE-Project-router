@@ -51,10 +51,14 @@ ava.cb('auth existing username', t => {
 	})
 })
 
-ava.cb('auth username', t => {
+ava('auth username', t => {
 	db.auth('test').then(result => {
-		console.log(result)
 		t.pass()
-		t.end()
+	})
+})
+
+ava('remove user', t => {
+	db.removeUser('test').then(result => {
+		t.is(result, 1)
 	})
 })

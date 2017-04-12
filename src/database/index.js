@@ -13,7 +13,10 @@ const database = init(config).then(db => {
 				.catch(reject)
 		})
 	})
-	return { auth }
+
+	const removeUser = username => db.delAsync(username)
+
+	return { auth, removeUser }
 })
 
 module.exports = database
