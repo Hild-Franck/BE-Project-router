@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "nyc ava --verbose"
+    "test": "nyc ava --verbose",
+    "dev": "nyc ava --verbose --watch"
   },
   "repository": {
     "type": "git",
