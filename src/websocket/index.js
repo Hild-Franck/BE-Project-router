@@ -1,7 +1,7 @@
 const WebSocketServer = require('websocket').server
 const http = require('http')
 
-const events = require('./events')
+const createEvents = require('./events')
 
 const port = process.env.PORT || 8080
 
@@ -17,6 +17,8 @@ const wsServer = new WebSocketServer({
     httpServer: server,
     autoAcceptConnections: false
 })
+
+const events = createEvents(wsServer)
 
 wsServer.on('request', events.onRequest)
 
