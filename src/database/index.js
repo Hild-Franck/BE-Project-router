@@ -1,5 +1,9 @@
+const uuid = require('uuid/v4')
+
 const init = require('./init')
 const config = require('../../config').redis
+
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
 
 const database = init(config).then(db => {
 	const auth = username => new Promise((resolve, reject) => {
@@ -8,13 +12,24 @@ const database = init(config).then(db => {
 		return db.hgetallAsync(username).then(usernameHash => {
 			if (usernameHash !== null)
 				return reject(new Error('Username already used'))
-			return db.hmsetAsync(username, 'lastKey', '', 'x', 50, 'y', 50)
-				.then(resolve)
+			const player = {
+				username,
+				id: uuid(),
+				lastKey: '',
+				x: randomInt(10, 630),
+				y: randomInt(10, 630)
+			}
+			return db.hmsetAsync(player.username,
+				'id', player.id,
+				'lastKey', '',
+				'x', player.x,
+				'y', player.y)
+				.then(res => resolve(player))
 				.catch(reject)
 		})
 	})
 
-	const removeUser = username => db.delAsync(username)
+	const removeUser = username => (db.delAsync(username), username)
 
 	return { auth, removeUser }
 })

@@ -1,26 +1,18 @@
 const register = require('../register')
 const unregister = require('../unregister')
 const map = require('../mapGeneration')(10)
+const players = require('../players')
 
-const randomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-const broadcastPlayer = (wss, wsc, { data }) => {
+const broadcastPlayer = (wss, wsc, type, { data }) => {
   wss.connections.forEach((ws, idx) => {
     if (ws !== wsc)
-      ws.send(JSON.stringify({ type: 'newPlayer', data }))
+      ws.send(JSON.stringify({ type, data }))
   })
 }
 
 const message = JSON.stringify({
   type: 'map',
   data: map
-})
-
-const playerInit = () => ({
-  type: 'playerInit',
-  data: { x: randomInt(10, 630), y: randomInt(10, 630) }
 })
 
 const createEvents = wss => {
@@ -38,20 +30,36 @@ const createEvents = wss => {
       request.on('requestAccepted', wsConn =>
         events.onRequestAccepted(wsConn, username))
         
-        register(request, username)
+      register(request, username)
     },
     onRequestAccepted: (wsConn, username) => {
       console.log(`Connection accepted for ${username}`)
       
       wsConn.send(message)
-
-      const playerMessage = playerInit()
-      broadcastPlayer(wss, wsConn, playerMessage)
-
+      const player = players.get(username)
+      const playerMessage = {
+        type: 'playerInit',
+        data: { id: player.id, x: player.x, y: player.y }
+      }
       wsConn.send(JSON.stringify(playerMessage))
+      broadcastPlayer(wss, wsConn, 'newPlayer', playerMessage)
+
+      wsConn.send(JSON.stringify({
+        type: 'getPlayers',
+        data: players.getAll()
+      }))
       wsConn.on('close', err => {
         console.log(`Connection lose for ${username}`)
-        unregister(username)
+        unregister(username).then(username => {
+          const leaveMessage = {
+            data: { id: players.get(username).id }
+          }
+          broadcastPlayer(wss, wsConn, 'leavingPlayer', leaveMessage)
+          return username
+        }).then(username => {
+          console.log('Remove player: ', username)
+          players.remove(username)
+        })
       })
     }
 
