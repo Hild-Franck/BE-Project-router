@@ -48,6 +48,11 @@ const createEvents = wss => {
         type: 'getPlayers',
         data: players.getAll()
       }))
+      wsConn.on('message', msg => {
+        player.keys.update(JSON.parse(msg.utf8Data))
+        console.log(msg.utf8Data)
+        console.log(player.keys)
+      })
       wsConn.on('close', err => {
         console.log(`Connection lose for ${username}`)
         unregister(username).then(username => {

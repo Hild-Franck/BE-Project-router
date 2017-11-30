@@ -3,6 +3,7 @@ const uuid = require('uuid/v4')
 const init = require('./init')
 const config = require('../../config').redis
 const players = require('../players')
+const createKeys = require('../keys')
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
 
@@ -14,13 +15,16 @@ const database = init(config).then(db => {
 			if (players.get(username))
 				return reject(new Error('Username already used'))
 			if (usernameHash !== null) {
+				usernameHash.keys = createKeys()
 				players.add(usernameHash)
 				return resolve(usernameHash)
 			}
 			const player = {
 				username,
 				id: uuid(),
-				lastKey: '',
+				keys: createKeys(),
+				startTime: 0,
+				duration: 0,
 				x: randomInt(10, 630),
 				y: randomInt(10, 630)
 			}
@@ -28,7 +32,6 @@ const database = init(config).then(db => {
 			return db.hmsetAsync(player.username,
 				'username', username,
 				'id', player.id,
-				'lastKey', '',
 				'x', player.x,
 				'y', player.y)
 				.then(res => resolve(player))
