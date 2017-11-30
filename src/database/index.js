@@ -8,19 +8,20 @@ const createKeys = require('../keys')
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
 
 const database = init(config).then(db => {
-	const auth = username => new Promise((resolve, reject) => {
-		if (username === '')
+	const auth = autObj => new Promise((resolve, reject) => {
+		if (autObj.username === '')
 			return reject(new Error('Empty username'))
-		return db.hgetallAsync(username).then(usernameHash => {
-			if (players.get(username))
+		return db.hgetallAsync(autObj.username).then(usernameHash => {
+			if (usernameHash && players.get(usernameHash.id))
 				return reject(new Error('Username already used'))
 			if (usernameHash !== null) {
 				usernameHash.keys = createKeys()
+				autObj.id = usernameHash.id
 				players.add(usernameHash)
 				return resolve(usernameHash)
 			}
 			const player = {
-				username,
+				username: autObj.username,
 				id: uuid(),
 				keys: createKeys(),
 				startTime: 0,
@@ -28,9 +29,10 @@ const database = init(config).then(db => {
 				x: randomInt(10, 630),
 				y: randomInt(10, 630)
 			}
+			autObj.id = player.id
 			players.add(player)
 			return db.hmsetAsync(player.username,
-				'username', username,
+				'username', autObj.username,
 				'id', player.id,
 				'x', player.x,
 				'y', player.y)

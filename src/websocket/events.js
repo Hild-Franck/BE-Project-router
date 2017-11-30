@@ -19,24 +19,27 @@ const createEvents = wss => {
   const events = {
   	onRequest: request => {
       console.log('Request received')
-  		const username = request.resourceURL.query.username || ''
+  		const autObj = {
+        username: request.resourceURL.query.username || '',
+        id: ''
+      }
 
   		if (!request.requestedProtocols.includes('echo-protocol')) {
-        console.log(`[${username}] Wrong protocol, connection rejected`)
+        console.log(`[${autObj.username}] Wrong protocol, connection rejected`)
         request.reject()
         return undefined
       }
 
       request.on('requestAccepted', wsConn =>
-        events.onRequestAccepted(wsConn, username))
+        events.onRequestAccepted(wsConn, autObj))
         
-      register(request, username)
+      register(request, autObj)
     },
-    onRequestAccepted: (wsConn, username) => {
-      console.log(`Connection accepted for ${username}`)
+    onRequestAccepted: (wsConn, autObj) => {
+      console.log(`Connection accepted for ${autObj.username}`)
       
       wsConn.send(message)
-      const player = players.get(username)
+      const player = players.get(autObj.id)
       const playerMessage = {
         type: 'playerInit',
         data: { id: player.id, x: player.x, y: player.y }
@@ -50,25 +53,30 @@ const createEvents = wss => {
       }))
       wsConn.on('message', msg => {
         player.keys.update(JSON.parse(msg.utf8Data))
-        console.log(msg.utf8Data)
-        console.log(player.keys)
+        console.log('[DEBUG] Key data: ', player.keys)
       })
       wsConn.on('close', err => {
-        console.log(`Connection lose for ${username}`)
-        unregister(username).then(username => {
+        console.log(`Connection lose for ${autObj.username}`)
+        unregister(autObj.username).then(username => {
           const leaveMessage = {
-            data: { id: players.get(username).id }
+            data: { id: player.id }
           }
           broadcastPlayer(wss, wsConn, 'leavingPlayer', leaveMessage)
           return username
         }).then(username => {
           console.log('Remove player: ', username)
-          players.remove(username)
+          players.remove(autObj.id)
         })
       })
     }
 
   }
+  const type = 'update'
+  setInterval(() => {
+    wss.connections.forEach((ws, idx) => {
+      ws.send(JSON.stringify({ type, data: players.getAll() }))
+  })
+  }, 16)
   return events
 }
 

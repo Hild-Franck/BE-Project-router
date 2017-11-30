@@ -5,7 +5,7 @@ const register = (request, username) =>
 	database
 		.then(db => db.auth(username))
 		.then(player => {
-			console.log('player: ', player)
+			console.log('[DEBUG] Player: ', player)
 			request.accept()
 			return player
 		})
