@@ -6,7 +6,7 @@ const register = (request, username) =>
 		.then(db => db.auth(username))
 		.then(player => {
 			console.log('[DEBUG] Player: ', player)
-			request.accept()
+			request.accept('echo-protocol')
 			return player
 		})
 		.catch(e => request.reject(403, e.message))
