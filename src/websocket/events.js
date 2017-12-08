@@ -52,7 +52,7 @@ const createEvents = wss => {
         data: players.getAll()
       }))
       wsConn.on('message', msg => {
-        player.keys.update(JSON.parse(msg.utf8Data))
+        player.keys.update(JSON.parse(msg.utf8Data), player)
         console.log('[DEBUG] Key data: ', player.keys)
       })
       wsConn.on('close', err => {

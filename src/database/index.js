@@ -16,6 +16,8 @@ const database = init(config).then(db => {
 				return reject(new Error('Username already used'))
 			if (usernameHash !== null) {
 				usernameHash.keys = createKeys()
+				usernameHash.x = Number(usernameHash.x)
+				usernameHash.y = Number(usernameHash.y)
 				autObj.id = usernameHash.id
 				players.add(usernameHash)
 				return resolve(usernameHash)
@@ -24,8 +26,6 @@ const database = init(config).then(db => {
 				username: autObj.username,
 				id: uuid(),
 				keys: createKeys(),
-				startTime: 0,
-				duration: 0,
 				x: randomInt(10, 630),
 				y: randomInt(10, 630)
 			}
