@@ -2,63 +2,64 @@ const ava = require('ava')
 
 const initRedis = require('../src/database/init')
 const redis = require('../src/database/')
+const players = require('../src/players')
 
 const host = process.env.REDIS_HOST || 'localhost'
 
 let database = {}
 let db = {}
-const usernameTest = 'usernameTest'
+const testUser = { username: 'testUsername', id: "" }
 
-ava.cb('failed connection', t => {
-	initRedis({ maxRetry: 1, retryDelay: 5, host: 'wrongHost' }).catch(err => {
+ava('failed connection', t => {
+	return initRedis({ maxRetry: 1, retryDelay: 5, host: 'wrongHost' }).catch(err => {
 		t.pass()
-		t.end()
 	})
 })
 
-ava.cb.before(t => {
-	initRedis({ maxRetry: 5, retryDelay: 500, host }).then(db => {
+ava.before(t => {
+	return initRedis({ maxRetry: 5, retryDelay: 500, host }).then(db => {
 		database = db
-		t.end()
 	})
 })
 
-ava.cb('connected to redis', t => {
+ava('connected to redis', t => {
 	t.is(database.connected, true)
-	t.end()
 })
 
-ava.cb.before(t => {
-	redis.then(newDb => {
+ava.before(t => {
+	return redis.then(newDb => {
 		db = newDb
-		t.end()
 	})
 })
 
-ava.cb('auth an empty username', t => {
-	db.auth('').catch(err => {
+ava.serial('auth an empty username', t => {
+	return db.auth('').catch(err => {
 		t.is(err.message, 'Empty username')
-		t.end()
 	})
 })
 
-ava.cb('auth existing username', t => {
-	database.hsetAsync(usernameTest, 'stuff', 0).then(() => {
-		db.auth(usernameTest).catch(err => {
+ava.serial('auth a new user', t => {
+	return db.auth(testUser).then(player => {
+		testUser.id = player.id
+		t.is(player.username, testUser.username)
+	})
+})
+
+ava.serial('auth ingame username', t => {
+	return database.hsetAsync(testUser, 'stuff', 0).then(() => {
+		return db.auth(testUser).catch(err => {
 			t.is(err.message, 'Username already used')
-			t.end()
 		})
 	})
 })
 
-ava('auth username', t => {
-	db.auth('test').then(result => {
-		t.pass()
+ava.serial('auth existing username', t => {
+	players.remove(testUser.id)
+	return db.auth(testUser).then(player => {
+		t.is(player.username, testUser.username)
 	})
 })
 
-ava('remove user', t => {
-	db.removeUser('test').then(result => {
-		t.is(result, 1)
-	})
+ava.after(t => {
+	database.del(testUser.username)
 })
