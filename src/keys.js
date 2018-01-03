@@ -23,6 +23,7 @@ const createKeys = () => {
 			key.duration = (new Date()).getTime() - key.start
 			updatePosition[data](player, key.duration)
 		}
+		return (new Error('Wrong key type'))
 	}
 	return keys
 }
