@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "nyc --reporter=html --reporter=lcov ava --verbose",
+    "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 80 --per-file",
     "dev": "ava --verbose --watch"
   },
   "repository": {

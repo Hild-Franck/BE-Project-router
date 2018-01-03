@@ -1,5 +1,9 @@
 const ava = require('ava')
 
+ava('should be true', t => {
+	t.pass()
+})
+
 // const genMapLayers = require('../src/mapGeneration')
 
 // ava('generate map layers', t => {
