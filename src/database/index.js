@@ -10,8 +10,7 @@ const setUsernameHash = usernameHash => {
 	players.add(usernameHash)
 }
 
-const database = init(config).then(db => {
-	const auth = authObj => new Promise((resolve, reject) => {
+const auth = db => authObj => new Promise((resolve, reject) => {
 		if (!authObj || authObj.username === '')
 			return reject(new Error('Empty username'))
 		return db.hgetallAsync(authObj.username).then(usernameHash => {
@@ -35,7 +34,10 @@ const database = init(config).then(db => {
 		})
 	})
 
-	return { auth }
+const database = init(config).then(db => {
+	
+
+	return { auth: auth(db) }
 })
 
 module.exports = database
