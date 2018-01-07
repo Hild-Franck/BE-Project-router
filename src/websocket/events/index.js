@@ -1,40 +1,8 @@
-const register = require('../register')
-const unregister = require('../unregister')
-const map = require('../mapGeneration')(10)
-const players = require('../players')
-
-const broadcastPlayer = (wss, wsc, type, { data }) => {
-  wss.connections.forEach((ws, idx) => {
-    if (ws !== wsc)
-      ws.send(JSON.stringify({ type, data }))
-  })
-}
-
-const message = JSON.stringify({
-  type: 'map',
-  data: map
-})
+const onRequest = require('./onRequest')
 
 const createEvents = wss => {
   const events = {
-  	onRequest: request => {
-      console.log('Request received')
-  		const autObj = {
-        username: request.resourceURL.query.username || '',
-        id: ''
-      }
-
-  		if (!request.requestedProtocols.includes('echo-protocol')) {
-        console.log(`[${autObj.username}] Wrong protocol, connection rejected`)
-        request.reject()
-        return undefined
-      }
-
-      request.on('requestAccepted', wsConn =>
-        events.onRequestAccepted(wsConn, autObj))
-        
-      register(request, autObj)
-    },
+  	onRequest: onRequest(wss),
     onRequestAccepted: (wsConn, autObj) => {
       console.log(`Connection accepted for ${autObj.username}`)
       
