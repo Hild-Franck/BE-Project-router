@@ -5,10 +5,6 @@ const players = require('../src/players')
 const player = { id: "iAmID" }
 const authObj = { username: 'Jesus' }
 
-ava('should be true', t => {
-	t.pass()
-})
-
 ava.serial('add player', t => {
 	players.add(player)
 	t.is(players.collection[player.id].id, player.id)
