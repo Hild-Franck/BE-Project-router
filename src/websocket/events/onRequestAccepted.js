@@ -34,16 +34,12 @@ const onRequestAccepted = wss => (wsConn, autObj) => {
   })
   wsConn.on('close', err => {
     console.log(`Connection lose for ${autObj.username}`)
-    unregister(autObj.username).then(username => {
-      const leaveMessage = {
-        data: { id: player.id }
-      }
-      broadcastPlayer(wss, wsConn, 'leavingPlayer', leaveMessage)
-      return username
-    }).then(username => {
-      console.log('Remove player: ', username)
-      players.remove(autObj.id)
-    })
+    const leaveMessage = {
+      data: { id: player.id }
+    }
+    broadcastPlayer(wss, wsConn, 'leavingPlayer', leaveMessage)
+    console.log('Remove player: ', autObj.username)
+    players.remove(autObj.id)
   })
 }
 
