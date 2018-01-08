@@ -1,6 +1,5 @@
 const players = require('../../players')
 const map = require('../../mapGeneration')(10)
-const unregister = require('../../unregister')
 
 const broadcastPlayer = (wss, wsc, type, { data }) => {
   wss.connections.forEach((ws, idx) => {
