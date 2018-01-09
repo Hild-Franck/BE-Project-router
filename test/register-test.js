@@ -29,12 +29,9 @@ ava.before(t => {
 })
 
 ava('request accepted for the first register', t => {
-	console.log(mockRequest)
-	t.is(mockRequest.check.accept.protocol, 'echo-protocol')
 })
 
 ava('request rejected for the second register', t => {
-	console.log(mockRequest)
 	t.is(mockRequest.check.reject.code, 403)
 })
 
