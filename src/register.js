@@ -1,11 +1,10 @@
 const database = require('./database')
 const players = require('./players')
 
-const register = (request, username) =>
+const register = (request, authObj) =>
 	database
-		.then(db => db.auth(username))
+		.then(db => db.auth(authObj))
 		.then(player => {
-			console.log('[DEBUG] Player: ', player)
 			request.accept('echo-protocol')
 			return player
 		})
