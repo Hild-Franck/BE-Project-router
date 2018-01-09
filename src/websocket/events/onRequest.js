@@ -13,7 +13,7 @@ const onRequest = wss => {
   	if (!request.requestedProtocols.includes('echo-protocol')) {
       console.log(`[${autObj.username}] Wrong protocol, connection rejected`)
       request.reject()
-      return undefined
+      return false
     }
 
     request.on('requestAccepted', wsConn =>
