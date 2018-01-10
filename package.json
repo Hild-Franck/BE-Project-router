@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/Hild-Franck/BE-Project-router#readme",
   "devDependencies": {
-    "ava": "^0.17.0",
-    "nyc": "^10.3.2"
+    "ava": "^0.24.0",
+    "nyc": "^11.4.1"
   },
   "ava": {
     "files": [
