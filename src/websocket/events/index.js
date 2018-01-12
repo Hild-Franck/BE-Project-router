@@ -1,4 +1,5 @@
 const onRequest = require('./onRequest')
+const players = require('../../players')
 
 const createEvents = wss => {
   const events = {

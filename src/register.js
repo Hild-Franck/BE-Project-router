@@ -7,7 +7,6 @@ const register = (request, authObj) =>
 		.then(player => {
 			request.accept('echo-protocol')
 			return player
-		})
-		.catch(e => request.reject(403, e.message))
+		}).catch(e => request.reject(403, e.message))
 
 module.exports = register
