@@ -18,12 +18,14 @@ const auth = db => authObj => new Promise((resolve, reject) => {
 				return reject(new Error('Username already used'))
 			if (usernameHash !== null) {
 				setUsernameHash(usernameHash)
+				authObj.id = usernameHash.id
 				return resolve(usernameHash)
 			}
 
 			const player = players.create(authObj)
 			players.add(player)
 
+			authObj.id = player.id
 			return db.hmsetAsync(player.username,
 				'username', authObj.username,
 				'id', player.id,

@@ -19,11 +19,11 @@ const onRequestAccepted = wss => (wsConn, autObj) => {
   wsConn.send(message)
   const player = players.get(autObj.id)
 
+  console.log(autObj.id)
   const playerMessage = {
     type: 'playerInit',
     data: { id: player.id, x: player.x, y: player.y }
   }
-
   wsConn.send(JSON.stringify(playerMessage))
   broadcastPlayer(wss, wsConn, 'newPlayer', playerMessage)
 

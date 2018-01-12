@@ -12,6 +12,7 @@ const createHTTPServer = () => {
 	})
 
 	server.listen(port, () => console.log(`Server is listening on port ${port}`))
+  return server
 }
 
 const createWebSocketServer = WebSocketServer => {
