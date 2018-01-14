@@ -15,7 +15,7 @@ const auth = db => authObj => new Promise((resolve, reject) => {
 			return reject(new Error('Empty username'))
 		return db.hgetallAsync(authObj.username).then(usernameHash => {
 			if (usernameHash && players.get(usernameHash.id))
-				return reject(new Error('Username already used'))
+				return reject(new Error(`Username <${authObj.username}> already used`))
 			if (usernameHash !== null) {
 				setUsernameHash(usernameHash)
 				authObj.id = usernameHash.id

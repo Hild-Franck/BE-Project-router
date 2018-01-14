@@ -1,5 +1,6 @@
 const redis = require('redis')
 const bluebird = require('bluebird')
+const logger = require('../logger')
 
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
@@ -8,7 +9,7 @@ const init = config => new Promise((resolve, reject) => {
 	config.retry_strategy = options => {
 		const err = `Unable to connect to redis: ${options.error.message}`
 		if (options.attempt > config.maxRetry) {
-			console.log(err)
+			logger.error(err)
 			reject(new Error(err))
 			return undefined
 		}
@@ -17,10 +18,10 @@ const init = config => new Promise((resolve, reject) => {
 
 	const client = redis.createClient(config)
 	client.on('error', err => {
-		console.log(`Error on redis: ${err.message}`)
+		logger.error(`Error on redis: ${err.message}`)
 	})
 	client.on('ready', ev => {
-		console.log('Connected to redis')
+		logger.info('Connected to redis')
 		resolve(client)
 	})
 })

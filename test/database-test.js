@@ -48,7 +48,7 @@ ava.serial('auth a new user', t => {
 ava.serial('auth ingame username', t => {
 	return database.hsetAsync(testUser, 'stuff', 0).then(() => {
 		return db.auth(testUser).catch(err => {
-			t.is(err.message, 'Username already used')
+			t.is(err.message, 'Username <testUsername> already used')
 		})
 	})
 })

@@ -1,4 +1,5 @@
 const http = require('http')
+const logger = require('../logger')
 
 const createEvents = require('./events')
 
@@ -6,12 +7,12 @@ const port = process.env.PORT || 8080
 
 const createHTTPServer = () => {
 	const server = http.createServer((req, res) => {
-    console.log(`Received connection for ${req.url}`)
+    logger.warn(`Received connection for ${req.url}`)
     res.writeHead(404)
     res.end()
 	})
 
-	server.listen(port, () => console.log(`Server is listening on port ${port}`))
+	server.listen(port, () => logger.info(`Server is listening on port ${port}`))
   return server
 }
 

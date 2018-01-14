@@ -1,5 +1,6 @@
 const players = require('../../players')
 const map = require('../../mapGeneration')(10)
+const logger = require('../../logger')
 
 const broadcastPlayer = (wss, wsc, type, { data }) => {
   wss.connections.forEach((ws, idx) => {
@@ -14,12 +15,11 @@ const message = JSON.stringify({
 })
 
 const onRequestAccepted = wss => (wsConn, autObj) => {
-  console.log(`Connection accepted for ${autObj.username}`)
+  logger.info(`Connection accepted for ${autObj.username}`)
   
   wsConn.send(message)
   const player = players.get(autObj.id)
 
-  console.log(autObj.id)
   const playerMessage = {
     type: 'playerInit',
     data: { id: player.id, x: player.x, y: player.y }
@@ -32,12 +32,11 @@ const onRequestAccepted = wss => (wsConn, autObj) => {
     player.keys.update(JSON.parse(msg.utf8Data), player)
   })
   wsConn.on('close', err => {
-    console.log(`Connection lose for ${autObj.username}`)
+    logger.info(`Connection lose for ${autObj.username}`)
     const leaveMessage = {
       data: { id: player.id }
     }
     broadcastPlayer(wss, wsConn, 'leavingPlayer', leaveMessage)
-    console.log('Remove player: ', autObj.username)
     players.remove(autObj.id)
   })
 }
