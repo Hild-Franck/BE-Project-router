@@ -17,7 +17,7 @@ const onRequest = wss => {
     }
 
     request.on('requestAccepted', wsConn =>
-      events.onRequestAccepted(wsConn, autObj))
+      onRequestAccepted(wsConn, autObj))
       
     register(request, autObj)
   }
