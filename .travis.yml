@@ -1,11 +1,14 @@
 language: node_js
+
+node_js:
+  - node
+
 env:
   global:
     - CC_TEST_REPORTER_ID=1da8f6a0218514df47ede2e3be786d4dbe6c6af3f3c51dde9c8556f81dae8c38
     - NODE_ENV=ci
+    - SERVER='52.70.188.82'
 
-node_js:
-  - "node"
   
 services:
   - redis-server
@@ -21,7 +24,7 @@ branches:
     - develop
 
 install:
-  - npm install --only=productiom
+  - npm install
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -32,3 +35,15 @@ script:
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - docker build -t Hild-Franck/be-project-router
+
+  before_deploy:
+  - openssl aes-256-cbc -K $encrypted_8643b7cec117_key -iv $encrypted_8643b7cec117_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/deploy_rsa
+  - ssh-add /tmp/deploy_rsa
+
+deploy:
+  provider: script
+  script: bash scripts/deploy.bash
+  on:
+    branch: master
