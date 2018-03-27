@@ -7,7 +7,6 @@ const port = process.env.PORT || 8080
 
 const createHTTPServer = () => {
 	const server = http.createServer((req, res) => {
-    logger.warn(`Received connection for ${req.url}`)
     res.writeHead(404)
     res.end()
 	})
