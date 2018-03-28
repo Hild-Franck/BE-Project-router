@@ -7,20 +7,20 @@ const port = process.env.PORT || 8080
 
 const createHTTPServer = () => {
 	const server = http.createServer((req, res) => {
-    res.writeHead(404)
-    res.end()
+		res.writeHead(404)
+		res.end()
 	})
 
 	server.listen(port, () => logger.info(`Server is listening on port ${port}`))
-  return server
+	return server
 }
 
 const createWebSocketServer = WebSocketServer => {
 	const httpServer = createHTTPServer()
 
 	const wsServer = new WebSocketServer({
-    httpServer,
-    autoAcceptConnections: false
+		httpServer,
+		autoAcceptConnections: false
 	})
 
 	const events = createEvents(wsServer)
