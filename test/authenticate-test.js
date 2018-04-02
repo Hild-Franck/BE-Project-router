@@ -1,11 +1,13 @@
 const ava = require('ava')
 
-const register = require('../src/register')
+const register = require('../src/authenticate')
+
+let player = {}
 
 const mockRequest = {
 	check: {
 		accept: {},
-		reject: {},
+		reject: {}
 	}
 }
 
@@ -17,14 +19,22 @@ mockRequest.reject = (code, errMessage) => {
 	mockRequest.check.reject = { code, errMessage }
 }
 
-const authObj = { username: 'Poulet', id: "" }
+mockRequest.on = (event, callback) => {
+	if (event == "requestAccepted") {
+		player = callback()
+	}
+}
 
-let player = {}
+const authObj = { username: "Poulet", id: "" }
+
+const onRequestAccepted = (_, player) => {
+	return player
+}
+
 
 ava.before(t => {
-	return register(mockRequest, authObj).then(newPlayer => {
-		player = newPlayer
-		return register(mockRequest, authObj)
+	return register(mockRequest, authObj, onRequestAccepted).then(() => {
+		return register(mockRequest, authObj, onRequestAccepted)
 	})
 })
 

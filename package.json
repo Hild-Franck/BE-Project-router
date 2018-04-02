@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "pretest": "node test/httpServerMock.js &",
-    "test": "nyc --reporter=html --reporter=lcov ava --verbose;",
+    "test": "nyc --reporter=text --reporter=html --reporter=lcov ava --verbose;",
     "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 75",
     "dev": "ava --verbose --watch"
   },

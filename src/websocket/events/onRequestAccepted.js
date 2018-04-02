@@ -14,7 +14,7 @@ const message = JSON.stringify({
   data: map
 })
 
-const onRequestAccepted = wss => (wsConn, autObj) => {
+const onRequestAccepted = wss => (wsConn, autObj, playerData) => {
   logger.info(`Connection accepted for ${autObj.username}`)
   
   wsConn.send(message)

@@ -40,7 +40,3 @@ ava.before(t => {
 ava('only wrong request rejected', t => {
 	t.is(check.rejected, 1)
 })
-
-ava('setup onRequestAccepted event', t => {
-	t.is(check.type, 'requestAccepted')
-})

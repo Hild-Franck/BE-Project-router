@@ -1,27 +1,25 @@
 const createOnRequestAccepted = require('./onRequestAccepted')
-const register = require('../../register')
+const authenticate = require('../../authenticate')
 const logger = require('../../logger')
 
 const onRequest = wss => {
-  const onRequestAccepted = createOnRequestAccepted(wss)
-    return request => {
-    logger.info('Request received')
-  	const autObj = {
-      username: request.resourceURL.query.username || '',
-      password: request.resourceURL.query.password || '',
-      id: ''
-    }
+	const onRequestAccepted = createOnRequestAccepted(wss)
+	return request => {
+		logger.info('Request received')
+		const autObj = {
+			username: request.resourceURL.query.username || '',
+			password: request.resourceURL.query.password || '',
+			id: ''
+		}
 
-  if (!request.requestedProtocols.includes('echo-protocol')) {
-      logger.warn(`Wrong protocol, connection rejected`)
-      request.reject()
-      return false
-    }
+		if (!request.requestedProtocols.includes('echo-protocol')) {
+			logger.warn(`Wrong protocol, connection rejected`)
+			request.reject()
+			return false
+		}
 
-    request.on('requestAccepted', wsConn => onRequestAccepted(wsConn, autObj))
-      
-    register(request, autObj)
-  }
+		authenticate(request, autObj, onRequestAccepted)
+	}
 }
 
 module.exports = onRequest
