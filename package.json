@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "pretest": "node test/httpServerMock.js &",
-    "test": "nyc --reporter=text --reporter=html --reporter=lcov ava --verbose;",
+    "test": "nyc --reporter=html --reporter=lcov ava --verbose;",
     "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 75",
     "dev": "ava --verbose --watch"
   },
@@ -28,8 +28,6 @@
   "homepage": "https://github.com/Hild-Franck/BE-Project-router#readme",
   "devDependencies": {
     "ava": "^0.24.0",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.3",
     "nyc": "^11.4.1"
   },
   "ava": {
@@ -46,6 +44,8 @@
     "request-promise": "^4.2.2",
     "uuid": "^3.1.0",
     "websocket": "^1.0.24",
+    "express": "^4.16.3",
+    "body-parser": "^1.18.2",
     "winston": "^2.4.0"
   }
 }
