@@ -22,7 +22,10 @@ const createHTTPServer = () => {
 		method: "POST",
 		body,
 		json: true
-	}).then(res.json))
+	}).then(data => {
+		res.json(data)
+		res.end()
+	}))
 
 	return server
 }
