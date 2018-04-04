@@ -37,15 +37,16 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "body-parser": "^1.18.2",
     "chalk": "^2.3.0",
+    "cors": "^2.8.4",
     "dateformat": "^3.0.2",
+    "express": "^4.16.3",
     "redis": "^2.7.1",
     "request": "^2.85.0",
     "request-promise": "^4.2.2",
     "uuid": "^3.1.0",
     "websocket": "^1.0.24",
-    "express": "^4.16.3",
-    "body-parser": "^1.18.2",
     "winston": "^2.4.0"
   }
 }

@@ -1,6 +1,7 @@
 const http = require('http')
 const express = require('express')
 const request = require('request-promise')
+const cors = require('cors')
 const bodyParser = require("body-parser")
 
 const logger = require('../logger')
@@ -10,6 +11,7 @@ const authService = process.env.AUTH || "localhost"
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cors())
 
 const port = process.env.PORT || 8080
 
