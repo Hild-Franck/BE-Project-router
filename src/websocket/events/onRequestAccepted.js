@@ -19,8 +19,7 @@ const onRequestAccepted = wss => (wsConn, playerData) => {
 	
 	wsConn.send(message)
 
-	const player = playerData.id ? playerData : players.create(playerData)
-	players.add(player)
+	const player = playerData.id ? players.add(playerData) : players.create(playerData)
 
 	const playerMessage = {
 		type: 'playerInit',

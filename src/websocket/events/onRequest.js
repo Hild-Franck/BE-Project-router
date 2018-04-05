@@ -5,14 +5,14 @@ const logger = require('../../logger')
 const onRequest = wss => {
 	const onRequestAccepted = createOnRequestAccepted(wss)
 	return request => {
-		logger.info('Request received')
 		const authObj = {
 			username: request.resourceURL.query.username || '',
 			password: request.resourceURL.query.password || ''
 		}
+		logger.info(`Request received from ${authObj.username}`)
 
 		if (!request.requestedProtocols.includes('echo-protocol')) {
-			logger.warn(`Wrong protocol, connection rejected`)
+			logger.warn(`Wrong protocol from ${authObj.username}, connection rejected`)
 			request.reject()
 			return false
 		}
