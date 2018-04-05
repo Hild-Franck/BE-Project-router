@@ -32,6 +32,7 @@ players.create = playerData => {
 		y: randomInt(10, 630)
 	}
 	database.then(db => db.storeNewPlayer(player))
+	players.collection[player.id] = player
 	return player
 }
 
