@@ -29,16 +29,6 @@ const createHTTPServer = () => {
 		res.end()
 	}))
 
-	app.post('/auth', ({ body }, res) => request({
-		uri: `http://${authService}:4242/auth`,
-		method: "POST",
-		body,
-		json: true
-	}).then(data => {
-		res.json(data)
-		res.end()
-	}))
-
 	return server
 }
 

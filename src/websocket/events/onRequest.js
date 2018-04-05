@@ -6,10 +6,9 @@ const onRequest = wss => {
 	const onRequestAccepted = createOnRequestAccepted(wss)
 	return request => {
 		logger.info('Request received')
-		const autObj = {
+		const authObj = {
 			username: request.resourceURL.query.username || '',
-			password: request.resourceURL.query.password || '',
-			id: ''
+			password: request.resourceURL.query.password || ''
 		}
 
 		if (!request.requestedProtocols.includes('echo-protocol')) {
@@ -18,7 +17,7 @@ const onRequest = wss => {
 			return false
 		}
 
-		authenticate(request, autObj, onRequestAccepted)
+		authenticate(request, authObj, onRequestAccepted)
 	}
 }
 

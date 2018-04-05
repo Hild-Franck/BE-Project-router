@@ -11,8 +11,8 @@ players.add = player => players.collection[player.id] = player
 players.remove = id => (delete players.collection[id])
 players.get = id => players.collection[id]
 players.getAll = () => players.collection
-players.create = authObj => ({
-	username: authObj.username,
+players.create = playerData => ({
+	username: playerData.username,
 	id: uuid(),
 	keys: createKeys(),
 	x: randomInt(10, 630),
