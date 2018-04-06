@@ -32,34 +32,6 @@ ava.before(t => {
 	})
 })
 
-ava.serial('auth an empty username', t => {
-	return db.auth('').catch(err => {
-		t.is(err.message, 'Empty username')
-	})
-})
-
-ava.serial('auth a new user', t => {
-	return db.auth(testUser).then(player => {
-		testUser.id = player.id
-		t.is(player.username, testUser.username)
-	})
-})
-
-ava.serial('auth ingame username', t => {
-	return database.hsetAsync(testUser, 'stuff', 0).then(() => {
-		return db.auth(testUser).catch(err => {
-			t.is(err.message, 'Username <testUsername> already used')
-		})
-	})
-})
-
-ava.serial('auth existing username', t => {
-	players.remove(testUser.id)
-	return db.auth(testUser).then(player => {
-		t.is(player.username, testUser.username)
-	})
-})
-
 ava.after(t => {
 	database.del(testUser.username)
 })
