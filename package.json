@@ -1,11 +1,12 @@
 {
   "name": "be-project-router",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "The entry point of the microservice backend",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "nyc --reporter=html --reporter=lcov ava --verbose",
+    "pretest": "node test/httpServerMock.js &",
+    "test": "nyc --reporter=html --reporter=lcov ava --verbose;",
     "posttest": "nyc report --reporter=text && nyc check-coverage --lines 80 --functions 80 --branches 75",
     "dev": "ava --verbose --watch"
   },
@@ -36,9 +37,14 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "body-parser": "^1.18.2",
     "chalk": "^2.3.0",
+    "cors": "^2.8.4",
     "dateformat": "^3.0.2",
+    "express": "^4.16.3",
     "redis": "^2.7.1",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2",
     "uuid": "^3.1.0",
     "websocket": "^1.0.24",
     "winston": "^2.4.0"

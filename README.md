@@ -8,3 +8,6 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/7a1155d3582248163eba/test_coverage)](https://codeclimate.com/github/Hild-Franck/BE-Project-router/test_coverage)
 
 Multiplayer game test with websocket
+
+## Deployment
+New version of the router service is deployed on an EC2 instance every time a push is done to master branch (only if all the tests are passing)
