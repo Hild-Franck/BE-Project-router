@@ -1,6 +1,8 @@
+const consola = require('consola')
 const players = require('../../players')
 const map = require('../../mapGeneration')(10)
-const logger = require('../../logger')
+
+const logger = consola.withScope('websocket.onRequestAccepted')
 
 const broadcastPlayer = (wss, wsc, type, { data }) => {
 	wss.connections.forEach((ws, idx) => {
@@ -15,7 +17,7 @@ const message = JSON.stringify({
 })
 
 const onRequestAccepted = wss => (wsConn, playerData) => {
-	logger.info(`Connection accepted for ${playerData.username}`)
+	logger.success(`Connection accepted for ${playerData.username}`)
 	
 	wsConn.send(message)
 

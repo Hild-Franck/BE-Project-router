@@ -1,6 +1,8 @@
 const redis = require('redis')
 const bluebird = require('bluebird')
-const logger = require('../logger')
+const consola = require('consola')
+
+const logger = consola.withScope('db.init')
 
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
@@ -21,7 +23,7 @@ const init = config => new Promise((resolve, reject) => {
 		logger.error(`Error on redis: ${err.message}`)
 	})
 	client.on('ready', ev => {
-		logger.info('Connected to redis')
+		logger.success('Connected to redis')
 		resolve(client)
 	})
 })

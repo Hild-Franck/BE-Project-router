@@ -1,6 +1,8 @@
+const consola = require('consola')
 const createOnRequestAccepted = require('./onRequestAccepted')
 const authenticate = require('../../authenticate')
-const logger = require('../../logger')
+
+const logger = consola.withScope('websocket.onRequest')
 
 const onRequest = wss => {
 	const onRequestAccepted = createOnRequestAccepted(wss)
@@ -9,7 +11,7 @@ const onRequest = wss => {
 			username: request.resourceURL.query.username || '',
 			password: request.resourceURL.query.password || ''
 		}
-		logger.info(`Request received from ${authObj.username}`)
+		logger.info(`Received a registration request from ${authObj.username}`)
 
 		if (!request.requestedProtocols.includes('echo-protocol')) {
 			logger.warn(`Wrong protocol from ${authObj.username}, connection rejected`)
