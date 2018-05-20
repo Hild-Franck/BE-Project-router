@@ -1,6 +1,6 @@
 {
   "name": "be-project-router",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "The entry point of the microservice backend",
   "main": "index.js",
   "scripts": {
