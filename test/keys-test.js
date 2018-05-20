@@ -14,59 +14,59 @@ Date = function() {
 const keys = createKeys()
 const player = { x: 0, y: 0 }
 
-ava.serial('65 key down', t => {
-	keys.update({ type: 'downkey', data: '65' }, player)
-	t.is(keys["65"].start, 10)
-	t.is(keys["65"].state, 'downkey')
+ava.serial('left key down', t => {
+	keys.update({ type: 'downkey', data: 'left' }, player)
+	t.is(keys["left"].start, 10)
+	t.is(keys["left"].state, 'downkey')
 })
 
-ava.serial('83 key down', t => {
-	keys.update({ type: 'downkey', data: '83' }, player)
-	t.is(keys["83"].start, 10)
-	t.is(keys["83"].state, 'downkey')
+ava.serial('face key down', t => {
+	keys.update({ type: 'downkey', data: 'face' }, player)
+	t.is(keys["face"].start, 10)
+	t.is(keys["face"].state, 'downkey')
 })
 
-ava.serial('68 key down', t => {
-	keys.update({ type: 'downkey', data: '68' }, player)
-	t.is(keys["68"].start, 10)
-	t.is(keys["68"].state, 'downkey')
+ava.serial('right key down', t => {
+	keys.update({ type: 'downkey', data: 'right' }, player)
+	t.is(keys["right"].start, 10)
+	t.is(keys["right"].state, 'downkey')
 })
 
-ava.serial('87 key down', t => {
-	keys.update({ type: 'downkey', data: '87' }, player)
-	t.is(keys["87"].start, 10)
-	t.is(keys["87"].state, 'downkey')
+ava.serial('back key down', t => {
+	keys.update({ type: 'downkey', data: 'back' }, player)
+	t.is(keys["back"].start, 10)
+	t.is(keys["back"].state, 'downkey')
 })
 
-ava.serial('65 key up', t => {
-	keys.update({ type: 'upkey', data: '65' }, player)
-	t.is(keys["65"].duration, 15)
-	t.is(keys["65"].state, 'upkey')
+ava.serial('left key up', t => {
+	keys.update({ type: 'upkey', data: 'left' }, player)
+	t.is(keys["left"].duration, 15)
+	t.is(keys["left"].state, 'upkey')
 	t.is(player.x, -4.5)
 })
 
-ava.serial('83 key up', t => {
-	keys.update({ type: 'upkey', data: '83' }, player)
-	t.is(keys["83"].duration, 15)
-	t.is(keys["83"].state, 'upkey')
+ava.serial('face key up', t => {
+	keys.update({ type: 'upkey', data: 'face' }, player)
+	t.is(keys["face"].duration, 15)
+	t.is(keys["face"].state, 'upkey')
 	t.is(player.y, 4.5)
 })
 
-ava.serial('68 key up', t => {
-	keys.update({ type: 'upkey', data: '68' }, player)
-	t.is(keys["68"].duration, 15)
-	t.is(keys["68"].state, 'upkey')
+ava.serial('right key up', t => {
+	keys.update({ type: 'upkey', data: 'right' }, player)
+	t.is(keys["right"].duration, 15)
+	t.is(keys["right"].state, 'upkey')
 	t.is(player.x, 0)
 })
 
-ava.serial('87 key up', t => {
-	keys.update({ type: 'upkey', data: '87' }, player)
-	t.is(keys["87"].duration, 15)
-	t.is(keys["87"].state, 'upkey')
+ava.serial('back key up', t => {
+	keys.update({ type: 'upkey', data: 'back' }, player)
+	t.is(keys["back"].duration, 15)
+	t.is(keys["back"].state, 'upkey')
 	t.is(player.y, 0)
 })
 
 ava.serial('wrong key type', t => {
-	const err = keys.update({ type: 'poulet', data: '87' }, player)
+	const err = keys.update({ type: 'poulet', data: 'back' }, player)
 	t.is(err.message, 'Wrong key type')
 })
