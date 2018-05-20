@@ -17,19 +17,21 @@ ava('failed connection', t => {
 })
 
 ava.before(t => {
-	return initRedis({ maxRetry: 5, retryDelay: 500, host }).then(db => {
-		database = db
+	return initRedis({ maxRetry: 5, retryDelay: 500, host }).then(newDb => {
+		database = newDb
 	})
+})
+
+ava.before(t => {
+	return redis.init()
 })
 
 ava('connected to redis', t => {
 	t.is(database.connected, true)
 })
 
-ava.before(t => {
-	return redis.then(newDb => {
-		db = newDb
-	})
+ava('create database object', t => {
+	t.truthy(redis.storeNewPlayer)
 })
 
 ava.after(t => {
