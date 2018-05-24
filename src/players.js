@@ -14,7 +14,6 @@ players.add = ({ x, y, id, username }) => {
 		x: Number(x),
 		y: Number(y),
 		id,
-		username,
 		keys: createKeys()
 	}
 	players.collection[id] = player
@@ -25,7 +24,6 @@ players.get = id => players.collection[id]
 players.getAll = () => players.collection
 players.create = playerData => {
 	const player = {
-		username: playerData.username,
 		id: uuid(),
 		keys: createKeys(),
 		x: randomInt(10, 630),

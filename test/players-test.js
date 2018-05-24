@@ -27,5 +27,7 @@ ava.serial('remove player', t => {
 
 ava.serial('create player', t => {
 	const myPlayer = players.create(authObj)
-	t.is(myPlayer.username, "Jesus")
+	console.log(myPlayer)
+	t.is(myPlayer.username, undefined)
+	t.truthy(myPlayer.id)
 })

@@ -23,12 +23,11 @@ const onRequestAccepted = wss => (wsConn, playerData) => {
 
 	const player = playerData.id ? players.add(playerData) : players.create(playerData)
 
-	const playerMessage = {
-		type: 'playerInit',
-		data: { id: player.id, x: player.x, y: player.y }
-	}
-	wsConn.send(JSON.stringify(playerMessage))
-	broadcastPlayer(wss, wsConn, 'newPlayer', playerMessage)
+	const publicMessage = { id: player.id, x: player.x, y: player.y }
+	const privateMessage = { username: playerData.username, ...publicMessage }
+
+	wsConn.send(JSON.stringify({ type: "playerInit", data: privateMessage }))
+	broadcastPlayer(wss, wsConn, 'newPlayer', { type: "playerInit", data: publicMessage })
 
 	wsConn.send(JSON.stringify({ type: 'getPlayers', data: players.getAll()}))
 	wsConn.on('message', msg => {
