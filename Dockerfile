@@ -1,12 +1,24 @@
-FROM node:latest
+FROM node:latest AS base
 
-WORKDIR /var/lib/src
+WORKDIR /app
 
-COPY package.json ./
+FROM base as builder
 
-RUN npm install --only=production
+COPY package*.json .babelrc ./
 
-COPY src ./src
-COPY config.js ./
+RUN npm install
 
-CMD [ "npm", "start" ]
+COPY ./src ./src
+
+RUN npm run build
+
+RUN npm prune --production
+
+FROM base AS release
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
+USER node
+
+CMD [ "node", "./dist/index.js" ]

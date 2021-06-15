@@ -1,5 +1,3 @@
-const WebSocketServer = require('websocket').server
+import { startBroker } from './broker'
 
-const createWebSocketServer = require('./websocket')
-
-createWebSocketServer(WebSocketServer)
+startBroker()
