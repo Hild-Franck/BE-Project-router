@@ -21,6 +21,10 @@ export const startBroker = async () => {
     mixins: [ApiService],
     settings: {
       port: 8080,
+      cors: {
+        methods: ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
+        origin: "*",
+      },
       onError(req, res, err) {
         res.setHeader("Content-Type", "application/json")
         const code = err.code || 500

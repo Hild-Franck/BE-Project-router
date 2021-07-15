@@ -5,8 +5,8 @@ import { appConfig } from './configs'
 const { combine, timestamp, prettyPrint, printf, align, colorize, json } = winston.format
 
 const customLevels = {
-	levels: { crit: 0, error: 1, warning: 2, info: 3, debug: 4 },
-	colors: {crit:'red', error:'red', warning:'yellow', info:'white', debug:'grey'}
+	levels: { crit: 0, error: 1, warn: 2, info: 3, debug: 4 },
+	colors: {crit:'red', error:'red', warn:'yellow', info:'white', debug:'grey'}
 }
 
 const logLevel = process.env.LOG_LEVEL
